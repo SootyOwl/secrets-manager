@@ -184,9 +184,13 @@ class Backend(QObject):
         write_links([l for l in read_links() if (l[0], l[1]) != (program, variable)])
         self.refresh()
 
-    @Slot()
+    @Slot(result=str)
     def openWallet(self):
-        subprocess.Popen(["kwalletmanager5"], start_new_session=True)
+        for cmd in ("kwalletmanager5", "kwalletmanager"):
+            if shutil.which(cmd):
+                subprocess.Popen([cmd], start_new_session=True)
+                return ""
+        return "KWallet Manager isn't installed."
 
 
 def main():

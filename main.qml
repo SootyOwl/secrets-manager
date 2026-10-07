@@ -38,7 +38,11 @@ Kirigami.ApplicationWindow {
                 text: "Open KWallet Manager"
                 icon.name: "kwalletmanager"
                 displayHint: Kirigami.DisplayHint.AlwaysHide
-                onTriggered: backend.openWallet()
+                onTriggered: {
+                    const err = backend.openWallet()
+                    if (err)
+                        root.showPassiveNotification(err)
+                }
             },
             Kirigami.Action {
                 text: "Refresh"
